@@ -109,9 +109,17 @@ app.get('/failure', (req, res) => {
 });
 
 app.get('/auth/logout',(req,res)=>{
-    
+    req.logOut()
+    return req.redirect('/')
 })
-
+app.get('/auth/logout', (req, res, next) => {
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        res.redirect('/');
+    });
+});
 app.get('/secret',checkloggedIn,(req,res)=>{
     console.log("Current use4r is ")
     return res.send('Your personal secret value 43')
